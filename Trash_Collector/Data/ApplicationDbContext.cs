@@ -37,6 +37,7 @@ namespace Trash_Collector.Data
         }
         public DbSet<Trash_Collector.Models.Customer> Customer { get; set; }
         public DbSet<Trash_Collector.Models.Employee> Employee { get; set; }
+        public IEnumerable<object> Customers { get; internal set; }
     }
 }
 
