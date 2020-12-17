@@ -51,7 +51,7 @@ namespace Trash_Collector.Controllers
             return View(customer);
         }
 
-        // GET: Customers/Suspend/5
+        // GET: Customers/Suspend
         public async Task<IActionResult> Suspend(int? id)
         {
             if (id == null)
@@ -59,9 +59,9 @@ namespace Trash_Collector.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customer
-                .Include(c => c.IdentityUser)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var customer = _context.Customer.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+
             if (customer == null)
             {
                 return NotFound();
@@ -69,7 +69,41 @@ namespace Trash_Collector.Controllers
 
             return View(customer);
         }
-        // GET: Customers/Extra_pickup/5
+
+        // POST: Customers/Suspend
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Suspend(int id,  Customer customer)
+        {
+            if (id != customer.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(customer);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!CustomerExists(customer.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(customer);
+        }
+
+        // GET: Customers/Extra_pickup
         public async Task<IActionResult> Extra_pickup(int? id)
         {
             if (id == null)
@@ -77,9 +111,9 @@ namespace Trash_Collector.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customer
-                .Include(c => c.IdentityUser)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var customer = _context.Customer.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+
             if (customer == null)
             {
                 return NotFound();
@@ -87,7 +121,41 @@ namespace Trash_Collector.Controllers
 
             return View(customer);
         }
-        // GET: Customers/UpdatePickup/5
+
+        // POST: Customers/Extra_pickup
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Extra_pickup(int id, Customer customer)
+        {
+            if (id != customer.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(customer);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!CustomerExists(customer.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(customer);
+        }
+
+        // GET: Customers/UpdatePickup
         public async Task<IActionResult> UpdatePickup(int? id)
         {
             if (id == null)
@@ -95,14 +163,47 @@ namespace Trash_Collector.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customer
-                .Include(c => c.IdentityUser)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var customer = _context.Customer.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+
             if (customer == null)
             {
                 return NotFound();
             }
 
+            return View(customer);
+        }
+
+        // POST: Customers/UpdatePickup
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdatePickup(int id, Customer customer)
+        {
+            if (id != customer.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(customer);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!CustomerExists(customer.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
             return View(customer);
         }
 

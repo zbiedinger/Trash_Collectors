@@ -14,6 +14,15 @@
         <form asp-action="Suspend">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="FirstName" />
+            <input type="hidden" asp-for="LastName" />
+            <input type="hidden" asp-for="ZipCode" />
+            <input type="hidden" asp-for="Address" />
+            <input type="hidden" asp-for="PickupDay" />
+            <input type="hidden" asp-for="ExtraPickupDay" />
+            <input type="hidden" asp-for="ChargesDue" />
+            <input type="hidden" asp-for="IdentityUserId" />
+
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="IsSuspended" /> @Html.DisplayNameFor(model => model.IsSuspended)

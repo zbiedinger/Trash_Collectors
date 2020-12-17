@@ -14,6 +14,17 @@
         <form asp-action="Extra_pickup">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="FirstName" />
+            <input type="hidden" asp-for="LastName" />
+            <input type="hidden" asp-for="ZipCode" />
+            <input type="hidden" asp-for="Address" />
+            <input type="hidden" asp-for="PickupDay" />
+            <input type="hidden" asp-for="IsSuspended" />
+            <input type="hidden" asp-for="SuspendedStart" />
+            <input type="hidden" asp-for="SuspendedEnd" />
+            <input type="hidden" asp-for="ChargesDue" />
+            <input type="hidden" asp-for="IdentityUserId" />
+            
             <div class="form-group">
                 <label asp-for="ExtraPickupDay" class="control-label"></label>
                 <input asp-for="ExtraPickupDay" class="form-control" />

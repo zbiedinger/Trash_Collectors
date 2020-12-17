@@ -8,9 +8,9 @@
 <h1>Your account details</h1>
 
 <p>
-    <a asp-action="Extra_pickup">Extra Pickup</a>
-    <a asp-action="Suspend">Suspend Service</a>
-    <a asp-action="UpdatePickup">Update Pickup Day</a>
+    <a asp-action="Extra_pickup" asp-route-id="@Model.Id">Extra Pickup</a>
+    <a asp-action="Suspend" asp-route-id="@Model.Id">Suspend Service</a>
+    <a asp-action="UpdatePickup" asp-route-id="@Model.Id">Update Pickup Day</a>
 </p>
 <table class="table">
     <thead>
@@ -46,7 +46,7 @@
                 @Html.DisplayNameFor(model => model.ChargesDue)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdentityUser)
+                @Html.DisplayNameFor(model => model.IdentityUserId)
             </th>
             <th></th>
         </tr>
@@ -84,7 +84,7 @@
                 @Html.DisplayFor(modelItem => modelItem.ChargesDue)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => modelItem.IdentityUser.Id)
+                @Html.DisplayFor(modelItem => modelItem.IdentityUserId)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
