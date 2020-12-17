@@ -25,12 +25,12 @@ namespace Trash_Collector.Controllers
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier); 
             var customer = _context.Customer.Where(c => c.IdentityUserId == userId).SingleOrDefault();
-            if (customer == null)
+            if (customer.Address == null)
             {
                 await Create(customer);
             }
             var applicationDbContext = _context.Customer.Include(c => c.IdentityUser);
-            return View(await applicationDbContext.ToListAsync());
+            return View(customer);
         }
 
         // GET: Customers/Details/5
@@ -52,6 +52,42 @@ namespace Trash_Collector.Controllers
             return View(customer);
         }
 
+        // GET: Customers/Details/5
+        public async Task<IActionResult> Suspend(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var customer = await _context.Customer
+                .Include(c => c.IdentityUser)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            return View(customer);
+        }
+        // GET: Customers/Details/5
+        public async Task<IActionResult> Extra_pickup(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var customer = await _context.Customer
+                .Include(c => c.IdentityUser)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            return View(customer);
+        }
         // GET: Customers/Create
         public IActionResult Create()
         {
