@@ -25,11 +25,10 @@ namespace Trash_Collector.Controllers
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier); 
             var customer = _context.Customer.Where(c => c.IdentityUserId == userId).SingleOrDefault();
-            if (customer.Address == null)
+            if (customer == null)
             {
-                await Create(customer);
+                return RedirectToAction("Create");
             }
-            var applicationDbContext = _context.Customer.Include(c => c.IdentityUser);
             return View(customer);
         }
 
@@ -52,7 +51,7 @@ namespace Trash_Collector.Controllers
             return View(customer);
         }
 
-        // GET: Customers/Details/5
+        // GET: Customers/Suspend/5
         public async Task<IActionResult> Suspend(int? id)
         {
             if (id == null)
@@ -70,7 +69,7 @@ namespace Trash_Collector.Controllers
 
             return View(customer);
         }
-        // GET: Customers/Details/5
+        // GET: Customers/Extra_pickup/5
         public async Task<IActionResult> Extra_pickup(int? id)
         {
             if (id == null)
@@ -88,6 +87,25 @@ namespace Trash_Collector.Controllers
 
             return View(customer);
         }
+        // GET: Customers/UpdatePickup/5
+        public async Task<IActionResult> UpdatePickup(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var customer = await _context.Customer
+                .Include(c => c.IdentityUser)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            return View(customer);
+        }
+
         // GET: Customers/Create
         public IActionResult Create()
         {
@@ -99,16 +117,22 @@ namespace Trash_Collector.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,ZipCode,Address,PickupDay,ExtraPickupDay,IsSuspended,SuspendedStart,SuspendedEnd,ChargesDue,IdentityUserId")] Customer customer)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,ZipCode,Address,PickupDay")] Customer customer)
         {
             if (ModelState.IsValid)
             {
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 Customer customerCreate = new Customer();
                 customerCreate.IdentityUserId = userId;
+                customerCreate.FirstName = customer.FirstName;
+                customerCreate.LastName = customer.LastName;
+                customerCreate.ZipCode = customer.ZipCode;
+                customerCreate.Address = customer.Address;
+                customerCreate.PickupDay = customer.PickupDay;
+
                 _context.Add(customerCreate);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index");
             }
             return View(customer);
         }

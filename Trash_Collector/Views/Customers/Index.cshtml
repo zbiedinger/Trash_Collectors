@@ -8,7 +8,9 @@
 <h1>Your account details</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Extra_pickup">Extra Pickup</a>
+    <a asp-action="Suspend">Suspend Service</a>
+    <a asp-action="UpdatePickup">Update Pickup Day</a>
 </p>
 <table class="table">
     <thead>
@@ -90,12 +92,5 @@
                 <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
             </td>
         </tr>
-
-
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary" asp-action="Extra_pickup" asp-route-id="@Model.Id">Extra Pickup</button>
-        
-            <button type="submit" class="btn btn-primary" asp-action="Suspend" asp-route-id="@Model.Id">Suspend Service</button>
-        </div>
     </tbody>
 </table>
