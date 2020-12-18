@@ -1,18 +1,21 @@
-﻿@model IEnumerable<Trash_Collector.Models.Employee>
+﻿@model IEnumerable<Trash_Collector.Models.Customer>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Today's Route</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    To view pickups for a zip thats not yours : <a asp-action="Create">Pick Zip</a>
 </p>
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.FirstName)
             </th>
@@ -26,10 +29,10 @@
                 @Html.DisplayNameFor(model => model.Address)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Pay)
+                @Html.DisplayNameFor(model => model.PickupDay)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdentityUser)
+                @Html.DisplayNameFor(model => model.ChargesDue)
             </th>
             <th></th>
         </tr>
@@ -37,6 +40,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FirstName)
             </td>
@@ -50,10 +56,10 @@
                 @Html.DisplayFor(modelItem => item.Address)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Pay)
+                @Html.DisplayFor(modelItem => item.PickupDay)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdentityUser.Id)
+                @Html.DisplayFor(modelItem => item.ChargesDue)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

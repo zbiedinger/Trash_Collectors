@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -22,9 +23,20 @@ namespace Trash_Collector.Controllers
         // GET: Employees
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Employee.Include(e => e.IdentityUser);
-            return View(await applicationDbContext.ToListAsync());
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var employee = _context.Employee.Where(e => e.IdentityUserId == userId).SingleOrDefault();
+            if (employee == null)
+            {
+                return RedirectToAction("Create");
+            }
+
+            
+            var customers = GetTodaysPickups();
+
+            return View(customers);
         }
+
+
 
         // GET: Employees/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -48,7 +60,6 @@ namespace Trash_Collector.Controllers
         // GET: Employees/Create
         public IActionResult Create()
         {
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
@@ -57,17 +68,26 @@ namespace Trash_Collector.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,ZipCode,Address,Pay,IdentityUserId")] Employee employee)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,ZipCode,Address,Pay")] Employee employee)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(employee);
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                Employee employeeCreate = new Employee();
+                employeeCreate.IdentityUserId = userId;
+                employeeCreate.FirstName = employee.FirstName;
+                employeeCreate.LastName = employee.LastName;
+                employeeCreate.ZipCode = employee.ZipCode;
+                employeeCreate.Address = employee.Address;
+                employeeCreate.Pay = employee.Pay;
+
+                _context.Add(employeeCreate);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index");
             }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", employee.IdentityUserId);
             return View(employee);
         }
+
 
         // GET: Employees/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -155,6 +175,17 @@ namespace Trash_Collector.Controllers
         private bool EmployeeExists(int id)
         {
             return _context.Employee.Any(e => e.Id == id);
+        }
+
+
+
+        public IQueryable<Customer> GetTodaysPickups()
+        {
+            string dayOfWeek = DateTime.Today.DayOfWeek.ToString();
+            
+            var customersForToday = _context.Customer.Where(c => c.PickupDay == dayOfWeek);
+
+            return customersForToday;
         }
     }
 }

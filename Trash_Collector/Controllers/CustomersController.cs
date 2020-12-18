@@ -21,9 +21,9 @@ namespace Trash_Collector.Controllers
         }
 
         // GET: Customers
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier); 
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var customer = _context.Customer.Where(c => c.IdentityUserId == userId).SingleOrDefault();
             if (customer == null)
             {
@@ -52,7 +52,7 @@ namespace Trash_Collector.Controllers
         }
 
         // GET: Customers/Suspend
-        public async Task<IActionResult> Suspend(int? id)
+        public IActionResult Suspend(int? id)
         {
             if (id == null)
             {
@@ -104,7 +104,7 @@ namespace Trash_Collector.Controllers
         }
 
         // GET: Customers/Extra_pickup
-        public async Task<IActionResult> Extra_pickup(int? id)
+        public IActionResult Extra_pickup(int? id)
         {
             if (id == null)
             {
@@ -156,7 +156,7 @@ namespace Trash_Collector.Controllers
         }
 
         // GET: Customers/UpdatePickup
-        public async Task<IActionResult> UpdatePickup(int? id)
+        public IActionResult UpdatePickup(int? id)
         {
             if (id == null)
             {

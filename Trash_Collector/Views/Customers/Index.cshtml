@@ -8,13 +8,16 @@
 <h1>Your account details</h1>
 
 <p>
-    <a asp-action="Extra_pickup" asp-route-id="@Model.Id">Extra Pickup</a>
-    <a asp-action="Suspend" asp-route-id="@Model.Id">Suspend Service</a>
+    <a asp-action="Extra_pickup" asp-route-id="@Model.Id">Extra Pickup</a> |
+    <a asp-action="Suspend" asp-route-id="@Model.Id">Suspend Service</a> |
     <a asp-action="UpdatePickup" asp-route-id="@Model.Id">Update Pickup Day</a>
 </p>
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ChargesDue)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.FirstName)
             </th>
@@ -33,26 +36,29 @@
             <th>
                 @Html.DisplayNameFor(model => model.ExtraPickupDay)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsSuspended)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SuspendedStart)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SuspendedEnd)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ChargesDue)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdentityUserId)
-            </th>
+            @*<th>
+            @Html.DisplayNameFor(model => model.IsSuspended)
+        </th>*@
+            @if (Model.IsSuspended)
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.SuspendedStart)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SuspendedEnd)
+                </th>
+            }
+            @*<th>
+            @Html.DisplayNameFor(model => model.IdentityUserId)
+        </th>*@
             <th></th>
         </tr>
     </thead>
     <tbody>
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem.ChargesDue)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => modelItem.FirstName)
             </td>
@@ -71,26 +77,26 @@
             <td>
                 @Html.DisplayFor(modelItem => modelItem.ExtraPickupDay)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => modelItem.IsSuspended)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => modelItem.SuspendedStart)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => modelItem.SuspendedEnd)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => modelItem.ChargesDue)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => modelItem.IdentityUserId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@Model.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
-            </td>
+            @*<td>
+            @Html.DisplayFor(modelItem => modelItem.IsSuspended)
+        </td>*@
+            @if (Model.IsSuspended)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => modelItem.SuspendedStart)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => modelItem.SuspendedEnd)
+                </td>
+            }
+            @*<td>
+            @Html.DisplayFor(modelItem => modelItem.IdentityUserId)
+        </td>
+        <td>
+            <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+            <a asp-action="Details" asp-route-id="@Model.Id">Details</a> |
+            <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+        </td>*@
         </tr>
     </tbody>
 </table>
