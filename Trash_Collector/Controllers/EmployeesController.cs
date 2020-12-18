@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Trash_Collector.ActionFilter;
 using Trash_Collector.Data;
 using Trash_Collector.Models;
 
 namespace Trash_Collector.Controllers
 {
+    //[Authorize(Roles = "Empoyee")]
+    //[ServiceFilter(typeof(GLobalRouting))]
     public class EmployeesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -30,8 +34,9 @@ namespace Trash_Collector.Controllers
                 return RedirectToAction("Create");
             }
 
-            
-            var customers = GetTodaysPickups();
+            var customers = GetPickupsByZip(employee.ZipCode);
+            customers = GetTodaysPickups(customers, DateTime.Today);
+
 
             return View(customers);
         }
@@ -179,13 +184,40 @@ namespace Trash_Collector.Controllers
 
 
 
-        public IQueryable<Customer> GetTodaysPickups()
+        public IEnumerable<Customer> GetPickupsByZip(int zip)
         {
-            string dayOfWeek = DateTime.Today.DayOfWeek.ToString();
-            
-            var customersForToday = _context.Customer.Where(c => c.PickupDay == dayOfWeek);
+            var customersByZip = _context.Customer.Where(c => c.ZipCode == zip);
+            return customersByZip;
+        }
 
-            return customersForToday;
+        //Returns the Customers that need pickup on a passed in date
+        public IEnumerable<Customer> GetTodaysPickups(IEnumerable<Customer> customersForpickup, DateTime dateOfPickup)
+        {
+            string dayOfWeek = dateOfPickup.DayOfWeek.ToString();
+
+            customersForpickup = customersForpickup.Where(c => c.PickupDay == dayOfWeek || c.ExtraPickupDay == dateOfPickup).AsEnumerable();
+            customersForpickup = CheckifSuspended(customersForpickup, dateOfPickup);
+
+            return customersForpickup;
+        }
+
+        //checks if a customer's service is suspended
+        public IEnumerable<Customer> CheckifSuspended(IEnumerable<Customer> customersNotSuspended, DateTime dateOfPickup)
+        {
+            foreach (var Item in customersNotSuspended)
+            {
+                if (dateOfPickup.Ticks > Item.SuspendedStart.Ticks && dateOfPickup.Ticks < Item.SuspendedEnd.Ticks)
+                {
+                    Item.IsSuspended = true;
+                }
+                else
+                {
+                    Item.IsSuspended = false;
+                }
+            }
+            customersNotSuspended = customersNotSuspended.Where(c => c.IsSuspended == false);
+
+            return customersNotSuspended;
         }
     }
 }
