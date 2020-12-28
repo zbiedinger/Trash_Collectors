@@ -16,7 +16,8 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ChargesDue)
+                Charges Due
+                @*@Html.DisplayNameFor(model => model.ChargesDue)*@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.FirstName)
@@ -25,27 +26,30 @@
                 @Html.DisplayNameFor(model => model.LastName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ZipCode)
+                @Html.DisplayNameFor(model => model.Address)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Address)
+                @Html.DisplayNameFor(model => model.ZipCode)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.PickupDay)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ExtraPickupDay)
-            </th>
+            @if (Model.ExtraPickupDay.Ticks > DateTime.Today.Ticks)
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.ExtraPickupDay.ToShortDateString())
+                </th>
+            }
             @*<th>
             @Html.DisplayNameFor(model => model.IsSuspended)
         </th>*@
-            @if (Model.IsSuspended)
+            @if (Model.SuspendedEnd.Ticks > DateTime.Today.Ticks)
             {
                 <th>
-                    @Html.DisplayNameFor(model => model.SuspendedStart)
+                    @Html.DisplayNameFor(model => model.SuspendedStart.ToShortDateString())
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.SuspendedEnd)
+                    @Html.DisplayNameFor(model => model.SuspendedEnd.ToShortDateString())
                 </th>
             }
             @*<th>
@@ -66,17 +70,20 @@
                 @Html.DisplayFor(modelItem => modelItem.LastName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => modelItem.ZipCode)
+                @Html.DisplayFor(modelItem => modelItem.Address)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => modelItem.Address)
+                @Html.DisplayFor(modelItem => modelItem.ZipCode)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => modelItem.PickupDay)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => modelItem.ExtraPickupDay)
-            </td>
+            @if (Model.ExtraPickupDay.Ticks > DateTime.Today.Ticks)
+            { 
+                 <td>
+                    @Html.DisplayFor(modelItem => modelItem.ExtraPickupDay)
+                 </td>
+            }
             @*<td>
             @Html.DisplayFor(modelItem => modelItem.IsSuspended)
         </td>*@

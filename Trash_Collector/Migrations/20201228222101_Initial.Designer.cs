@@ -10,8 +10,8 @@ using Trash_Collector.Data;
 namespace Trash_Collector.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201218220453_Intital")]
-    partial class Intital
+    [Migration("20201228222101_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,15 +50,15 @@ namespace Trash_Collector.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "7617fc89-c2bc-4342-b1e7-612a2c869f55",
-                            ConcurrencyStamp = "fdc63ff8-011e-4f51-ae2b-66debd5523f5",
+                            Id = "f0d92a10-f4dd-4a90-abd2-62951f6308c8",
+                            ConcurrencyStamp = "52984919-50bf-4870-baac-daf000abf891",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         },
                         new
                         {
-                            Id = "9f131f8a-6605-4004-8620-f12e435384e3",
-                            ConcurrencyStamp = "82a76a78-26df-430c-85df-81ec9930aa91",
+                            Id = "de705459-9108-4623-b5a8-a1ba55f8fc24",
+                            ConcurrencyStamp = "d296f0a5-6f27-4f37-91b4-feb3bbc07f1b",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         });
@@ -246,6 +246,9 @@ namespace Trash_Collector.Migrations
                     b.Property<double>("ChargesDue")
                         .HasColumnType("float");
 
+                    b.Property<bool>("ConfirmPickup")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("ExtraPickupDay")
                         .HasColumnType("datetime2");
 
@@ -260,6 +263,9 @@ namespace Trash_Collector.Migrations
 
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("LastPickup")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("PickupDay")
                         .HasColumnType("nvarchar(max)");
@@ -301,6 +307,9 @@ namespace Trash_Collector.Migrations
 
                     b.Property<double>("Pay")
                         .HasColumnType("float");
+
+                    b.Property<DateTime>("ViewPickupsFor")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("ZipCode")
                         .HasColumnType("int");

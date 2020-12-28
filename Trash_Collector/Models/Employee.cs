@@ -18,6 +18,8 @@ namespace Trash_Collector.Models
         public int ZipCode { get; set; }
         public string Address { get; set; }
         public double Pay { get; set; }
+        public DateTime ViewPickupsFor { get; set; }
+
 
 
         [ForeignKey("IdentityUser")]

@@ -86,6 +86,7 @@ namespace Trash_Collector.Controllers
             {
                 try
                 {
+                    customer.IsSuspended = true;
                     _context.Update(customer);
                     await _context.SaveChangesAsync();
                 }
