@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Trash_Collector.ActionFilter;
+using Trash_Collector.ActionFilters;
 using Trash_Collector.Data;
 
 namespace Trash_Collector
@@ -38,12 +38,12 @@ namespace Trash_Collector
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
 
-            services.AddScoped<ClaimsPrincipal>(s => 
-                s.GetService<IHttpContextAccessor>().HttpContext.User);
+            services.AddScoped<ClaimsPrincipal>(s => s.GetService<IHttpContextAccessor>().HttpContext.User);
             services.AddControllers(config =>
             {
-                config.Filters.Add(typeof(GLobalRouting));
+                config.Filters.Add(typeof(GlobalRouting));
             });
+
 
             services.AddControllersWithViews();
             services.AddRazorPages();

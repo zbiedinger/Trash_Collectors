@@ -21,11 +21,10 @@ namespace Trash_Collector.Data
                 .HasData(
                     new IdentityRole
                     {
-                        Name = "Empoyee",
+                        Name = "Employee",
                         NormalizedName = "EMPLOYEE"
                     }
                 );
-            base.OnModelCreating(builder);
             builder.Entity<IdentityRole>()
                 .HasData(
                     new IdentityRole
@@ -37,7 +36,6 @@ namespace Trash_Collector.Data
         }
         public DbSet<Trash_Collector.Models.Customer> Customer { get; set; }
         public DbSet<Trash_Collector.Models.Employee> Employee { get; set; }
-        public IEnumerable<object> Customers { get; internal set; }
     }
 }
 

@@ -7,14 +7,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Trash_Collector.ActionFilter;
+using Trash_Collector.ActionFilters;
 using Trash_Collector.Data;
 using Trash_Collector.Models;
 
 namespace Trash_Collector.Controllers
 {
-    //[Authorize(Roles = "Empoyee")]
-    //[ServiceFilter(typeof(GLobalRouting))]
+    //[ServiceFilter(typeof(GlobalRouting))]
     public class EmployeesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -24,7 +23,7 @@ namespace Trash_Collector.Controllers
             _context = context;
         }
 
-        // GET: Employees
+        // GET: Customers to view
         public async Task<IActionResult> Index()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -37,11 +36,37 @@ namespace Trash_Collector.Controllers
             var customers = GetPickupsByZip(employee.ZipCode);
             customers = GetTodaysPickups(customers, DateTime.Today);
 
-
             return View(customers);
         }
 
+        // GET: Employees/pickups
+        public IActionResult Pickups()
+        {
 
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var employee = _context.Employee.Where(e => e.IdentityUserId == userId).SingleOrDefault();
+            var customers = GetPickupsByZip(employee.ZipCode);
+            customers = GetTodaysPickups(customers, DateTime.Today);
+            return View(customers);
+        }
+
+        // POST: Customers to view
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Pickups(DateTime pickupdate)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var employee = _context.Employee.Where(e => e.IdentityUserId == userId).SingleOrDefault();
+            if (employee == null)
+            {
+                return RedirectToAction("Create");
+            }
+
+            var customers = GetPickupsByZip(employee.ZipCode);
+            customers = GetTodaysPickups(customers, pickupdate);
+
+            return View(customers);
+        }
 
         // GET: Employees/Details/5
         public async Task<IActionResult> Details(int? id)
