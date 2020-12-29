@@ -39,6 +39,39 @@ namespace Trash_Collector.Controllers
             return View(customers);
         }
 
+        [HttpPost, ActionName("PickupComplete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PickupComplete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var customer = _context.Customer.Where(c => c.Id == id).SingleOrDefault();
+
+            if (ModelState.IsValid)
+            {
+                customer.LastPickup = DateTime.Now;
+                _context.Update(customer);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        //// POST: Employees
+        //[HttpPost, ActionName("PickupComplet")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var employee = await _context.Employee.FindAsync(id);
+        //    _context.Employee.Remove(employee);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
+
         // GET: Employees/pickups
         public IActionResult Pickups()
         {

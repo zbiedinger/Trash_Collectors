@@ -34,6 +34,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.ChargesDue)
             </th>
+            <th>
+                Status
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -59,13 +62,23 @@
                 @Html.DisplayFor(modelItem => item.PickupDay)
             </td>
             <td>
-               $ @Html.DisplayFor(modelItem => item.ChargesDue)
+                $ @Html.DisplayFor(modelItem => item.ChargesDue)
             </td>
-            @*<td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>*@
+            @if (item.LastPickup.Ticks > DateTime.Today.AddDays(-1).Ticks)
+            {
+
+                <td><b>Complete</b></td>
+            }
+            else
+            {
+                <td>
+                    <form asp-action="PickupComplete">
+                        <div class="form-group form-check">
+                            <button asp-action="PickupComplete" asp-route-id="@item.Id" class="btn btn-primary">Confirm Pickup</button>
+                        </div>
+                    </form>
+                </td>
+            }
         </tr>
 }
     </tbody>

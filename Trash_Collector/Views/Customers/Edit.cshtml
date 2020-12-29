@@ -49,6 +49,11 @@
                     <input class="form-check-input" asp-for="IsSuspended" /> @Html.DisplayNameFor(model => model.IsSuspended)
                 </label>
             </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="ConfirmPickup" /> @Html.DisplayNameFor(model => model.ConfirmPickup)
+                </label>
+            </div>
             <div class="form-group">
                 <label asp-for="SuspendedStart" class="control-label"></label>
                 <input asp-for="SuspendedStart" class="form-control" />
