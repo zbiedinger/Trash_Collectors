@@ -53,6 +53,7 @@ namespace Trash_Collector.Controllers
             if (ModelState.IsValid)
             {
                 customer.LastPickup = DateTime.Now;
+                ChargeCustomer(customer);
                 _context.Update(customer);
                 await _context.SaveChangesAsync();
 
@@ -276,6 +277,20 @@ namespace Trash_Collector.Controllers
             customersNotSuspended = customersNotSuspended.Where(c => c.IsSuspended == false);
 
             return customersNotSuspended;
+        }
+
+        //Charge customer base on servise
+        public void ChargeCustomer(Customer customer)
+        {
+            if (customer.ExtraPickupDay.Date == DateTime.Today.Date)
+            {
+                customer.ChargesDue += 35;
+            }
+            else
+            {
+                customer.ChargesDue += 15;
+            }
+            _context.Update(customer);
         }
     }
 }

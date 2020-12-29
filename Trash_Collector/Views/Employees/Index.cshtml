@@ -13,9 +13,7 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
+
             <th>
                 @Html.DisplayNameFor(model => model.FirstName)
             </th>
@@ -29,7 +27,7 @@
                 @Html.DisplayNameFor(model => model.Address)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PickupDay)
+                Pickup Type
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ChargesDue)
@@ -44,9 +42,6 @@
 {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.FirstName)
             </td>
             <td>
@@ -58,9 +53,18 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Address)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PickupDay)
-            </td>
+            @if (item.ExtraPickupDay == DateTime.Today)
+            {
+                <td>
+                    Extra Pickup
+                </td>
+            }
+            else
+            {
+                <td>
+                    Normal
+                </td>
+            }
             <td>
                 $ @Html.DisplayFor(modelItem => item.ChargesDue)
             </td>
