@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Your account details</h1>
+<h1>Account Details</h1>
 
 <p>
     <a asp-action="Extra_pickup" asp-route-id="@Model.Id">Extra Pickup</a> |
@@ -16,37 +16,36 @@
     <thead>
         <tr>
             <th>
-                @*Charges Due*@
-                @Html.DisplayNameFor(model => model.ChargesDue)
+                Charges Due
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                First
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                Last
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Address)
+                Address
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ZipCode)
+                Zip Code
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PickupDay)
+                Pickup Day
             </th>
             @if (Model.ExtraPickupDay.Ticks > DateTime.Today.AddDays(-1).Ticks)
             {
                 <th>
-                    @Html.DisplayNameFor(model => model.ExtraPickupDay)
+                    Extra Pickup Day
                 </th>
             }
             @if (Model.SuspendedEnd.Ticks > DateTime.Today.Ticks)
             {
                 <th>
-                    @Html.DisplayNameFor(model => model.SuspendedStart)
+                    Start of Suspention
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.SuspendedEnd)
+                    End of Suspention
                 </th>
             }
         </tr>
@@ -54,7 +53,7 @@
     <tbody>
         <tr>
             <td>
-               $ @Html.DisplayFor(modelItem => modelItem.ChargesDue)
+                $ @Html.DisplayFor(modelItem => modelItem.ChargesDue)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => modelItem.FirstName)
@@ -72,18 +71,18 @@
                 @Html.DisplayFor(modelItem => modelItem.PickupDay)
             </td>
             @if (Model.ExtraPickupDay.Ticks > DateTime.Today.AddDays(-1).Ticks)
-            { 
-                 <td>
-                    @Html.DisplayFor(modelItem => modelItem.ExtraPickupDay.Date)
-                 </td>
+            {
+                <td>
+                    @Model.ExtraPickupDay.ToString("M/d/yyyy")
+                </td>
             }
             @if (Model.SuspendedEnd.Ticks > DateTime.Today.Ticks)
             {
                 <td>
-                    @Html.DisplayFor(modelItem => modelItem.SuspendedStart)
+                    @Model.SuspendedStart.ToString("M/d/yyyy")
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => modelItem.SuspendedEnd)
+                    @Model.SuspendedEnd.ToString("M/d/yyyy")
                 </td>
             }
         </tr>

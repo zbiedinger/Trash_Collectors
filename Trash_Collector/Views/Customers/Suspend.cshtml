@@ -24,20 +24,14 @@
             <input type="hidden" asp-for="IdentityUserId" />
             <input type="hidden" asp-for="IsSuspended" />
 
-
-            @*<div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsSuspended" /> @Html.DisplayNameFor(model => model.IsSuspended)
-                </label>
-            </div>*@
             <div class="form-group">
-                <label asp-for="SuspendedStart" class="control-label"></label>
-                <input asp-for="SuspendedStart" class="form-control" />
+                <label asp-for="SuspendedStart" class="control-label">Start Date</label>
+                <input asp-for="SuspendedStart" type="date" value="DateTime.Today" class="form-control" />
                 <span asp-validation-for="SuspendedStart" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SuspendedEnd" class="control-label"></label>
-                <input asp-for="SuspendedEnd" class="form-control" />
+                <label asp-for="SuspendedEnd" class="control-label">End Date</label>
+                <input asp-for="SuspendedEnd" type="date" value="DateTime.Today" class="form-control" />
                 <span asp-validation-for="SuspendedEnd" class="text-danger"></span>
             </div>
             <div class="form-group">

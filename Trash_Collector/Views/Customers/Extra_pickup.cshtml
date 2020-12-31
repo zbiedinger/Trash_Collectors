@@ -26,8 +26,8 @@
             <input type="hidden" asp-for="IdentityUserId" />
             
             <div class="form-group">
-                <label asp-for="ExtraPickupDay" class="control-label"></label>
-                <input asp-for="ExtraPickupDay" class="form-control" />
+                <label asp-for="ExtraPickupDay" class="control-label">Extra Pickup Day</label>
+                <input asp-for="ExtraPickupDay" type="date" value="DateTime.Today" class="form-control" />
                 <span asp-validation-for="ExtraPickupDay" class="text-danger"></span>
             </div>
             <div class="form-group">

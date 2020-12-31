@@ -37,40 +37,9 @@
                 <label asp-for="PickupDay" class="control-label">Pickup Day</label>
                 <input asp-for="PickupDay" class="form-control" />
                 <span asp-validation-for="PickupDay" class="text-danger"></span>
-                @*<select asp-for="PickupDay" asp-items="Model.PickupDays"></select>*@
             </div>
-            @*<div class="form-group">
-            <label asp-for="ExtraPickupDay" class="control-label"></label>
-            <input asp-for="ExtraPickupDay" class="form-control" />
-            <span asp-validation-for="ExtraPickupDay" class="text-danger"></span>
-        </div>
-        <div class="form-group form-check">
-            <label class="form-check-label">
-                <input class="form-check-input" asp-for="IsSuspended" /> @Html.DisplayNameFor(model => model.IsSuspended)
-            </label>
-        </div>
-        <div class="form-group">
-            <label asp-for="SuspendedStart" class="control-label"></label>
-            <input asp-for="SuspendedStart" class="form-control" />
-            <span asp-validation-for="SuspendedStart" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="SuspendedEnd" class="control-label"></label>
-            <input asp-for="SuspendedEnd" class="form-control" />
-            <span asp-validation-for="SuspendedEnd" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="ChargesDue" class="control-label"></label>
-            <input asp-for="ChargesDue" class="form-control" />
-            <span asp-validation-for="ChargesDue" class="txt-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="IdentityUserId" class="control-label"></label>
-            <select asp-for="IdentityUserId" class ="form-control" asp-items="ViewBag.IdentityUserId"></select>
-        </div>*@
         <div class="form-group">
             <input type="submit" value="Submit" class="btn btn-primary" />
-            @*<button type="submit">Register</button>*@
         </div>
         </form>
     </div>
