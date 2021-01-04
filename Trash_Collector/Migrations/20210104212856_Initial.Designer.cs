@@ -10,7 +10,7 @@ using Trash_Collector.Data;
 namespace Trash_Collector.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201228222101_Initial")]
+    [Migration("20210104212856_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,15 +50,15 @@ namespace Trash_Collector.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f0d92a10-f4dd-4a90-abd2-62951f6308c8",
-                            ConcurrencyStamp = "52984919-50bf-4870-baac-daf000abf891",
+                            Id = "77b53199-10db-4d0b-8371-fb51c77fd736",
+                            ConcurrencyStamp = "ec5721b1-b081-478f-8fe5-5bd1b1370f3d",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         },
                         new
                         {
-                            Id = "de705459-9108-4623-b5a8-a1ba55f8fc24",
-                            ConcurrencyStamp = "d296f0a5-6f27-4f37-91b4-feb3bbc07f1b",
+                            Id = "bf144aed-ee3c-4bb5-9569-d21a69f17baa",
+                            ConcurrencyStamp = "756a8359-176f-4557-87a7-a69a59b1d69b",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         });
@@ -266,6 +266,12 @@ namespace Trash_Collector.Migrations
 
                     b.Property<DateTime>("LastPickup")
                         .HasColumnType("datetime2");
+
+                    b.Property<double>("Latitude")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Longitude")
+                        .HasColumnType("float");
 
                     b.Property<string>("PickupDay")
                         .HasColumnType("nvarchar(max)");

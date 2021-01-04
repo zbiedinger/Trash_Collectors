@@ -94,15 +94,31 @@
                 padding: 0;
             }
         </style>
-        <script>
+        @*<script>
             function initMap() {
                 var map = new google.maps.Map(document.getElementById('map'), {
                     center: { lat: 33.780260, lng: -84.410950 },
+
                     zoom: 15,
                 });
             }
+        </script>*@
+        <script>
+            function initMap() {
+                const myLatLng = { lat: 33.780260, lng: -84.410950 };
+                const map = new google.maps.Map(document.getElementById("map"), {
+                    zoom: 15,
+                    center: myLatLng,
+                });
+                new google.maps.Marker({
+                    position: myLatLng,
+                    map,
+                    title: "@Model.Address",
+                });
+            }
         </script>
-        
+
+
         </script>
     </div>
     

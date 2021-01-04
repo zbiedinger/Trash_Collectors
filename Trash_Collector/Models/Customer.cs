@@ -35,7 +35,8 @@ namespace Trash_Collector.Models
         public double ChargesDue { get; set; }
         public bool ConfirmPickup { get; set; }
         public DateTime LastPickup { get; set; }
-
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
 
 
         [ForeignKey("IdentityUser")]
