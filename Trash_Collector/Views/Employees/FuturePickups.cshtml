@@ -5,11 +5,7 @@
     Layout = "~/Views/Shared/_EmployeeLayout.cshtml";
 }
 
-<h1>Today's Route</h1>
-
-<p>
-    To view pickups for a differnt day: <a asp-action="Pickups">Pick Day</a>
-</p>
+<h1>Furture Route</h1>
 
 <table class="table">
     <thead>
@@ -65,21 +61,6 @@
                 <td>
                     $ @Html.DisplayFor(modelItem => item.ChargesDue)
                 </td>
-                @if (item.LastPickup.Ticks > DateTime.Today.AddDays(-1).Ticks)
-                {
-
-                    <td><b>Complete</b></td>
-                }
-                else
-                {
-                    <td>
-                        <form asp-action="PickupComplete">
-                            <div class="form-group form-check">
-                                <button asp-action="PickupComplete" asp-route-id="@item.Id" class="btn btn-primary">Confirm Pickup</button>
-                            </div>
-                        </form>
-                    </td>
-                }
                 <td>
                     <a asp-action="CustomerDetails" asp-route-id="@item.Id">
                         <b>Profile</b>

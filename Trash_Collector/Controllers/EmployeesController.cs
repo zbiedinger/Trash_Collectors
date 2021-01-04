@@ -39,6 +39,7 @@ namespace Trash_Collector.Controllers
             return View(customers);
         }
 
+        //Marks a Customer as pickup today.
         [HttpPost, ActionName("PickupComplete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PickupComplete(int? id)
@@ -62,23 +63,50 @@ namespace Trash_Collector.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        //// POST: Employees
-        //[HttpPost, ActionName("PickupComplet")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
+        // GET: Employees/CustomerDetails
+        public async Task<IActionResult> CustomerDetails(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var customer = await _context.Customer.FirstOrDefaultAsync(m => m.Id == id);
+
+            if (customer == null)
+            {
+                return NotFound();
+            }
+            return View(customer);
+        }
+
+        //public IActionResult FuturePickups()
         //{
-        //    var employee = await _context.Employee.FindAsync(id);
-        //    _context.Employee.Remove(employee);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
+        //    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //    var employee = _context.Employee.Where(e => e.IdentityUserId == userId).SingleOrDefault();
+
+        //    var customers = GetPickupsByZip(employee.ZipCode);
+        //    customers = GetTodaysPickups(customers, DateTime.Today.AddDays(1));
+        //    return View("FuturePickups", customers);
         //}
+
+        public IActionResult FuturePickups(string dayOfWeek)
+        {
+            DateTime pickupDay = GetThatDay(dayOfWeek);
+
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var employee = _context.Employee.Where(e => e.IdentityUserId == userId).SingleOrDefault();
+
+            var customers = GetPickupsByZip(employee.ZipCode);
+            customers = GetTodaysPickups(customers, pickupDay);
+            return View("FuturePickups", customers);
+        }
 
         // GET: Employees/pickups
         public IActionResult Pickups()
         {
-
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var employee = _context.Employee.Where(e => e.IdentityUserId == userId).SingleOrDefault();
+
             var customers = GetPickupsByZip(employee.ZipCode);
             customers = GetTodaysPickups(customers, DateTime.Today);
             return View(customers);
@@ -91,28 +119,20 @@ namespace Trash_Collector.Controllers
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var employee = _context.Employee.Where(e => e.IdentityUserId == userId).SingleOrDefault();
-            if (employee == null)
-            {
-                return RedirectToAction("Create");
-            }
+
 
             var customers = GetPickupsByZip(employee.ZipCode);
             customers = GetTodaysPickups(customers, pickupdate);
 
-            return View(customers);
+            return View("Index", customers);
         }
 
         // GET: Employees/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var employee = _context.Employee.SingleOrDefault(e => e.IdentityUserId == userId);
 
-            var employee = await _context.Employee
-                .Include(e => e.IdentityUser)
-                .FirstOrDefaultAsync(m => m.Id == id);
             if (employee == null)
             {
                 return NotFound();
@@ -128,8 +148,6 @@ namespace Trash_Collector.Controllers
         }
 
         // POST: Employees/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,ZipCode,Address,Pay")] Employee employee)
@@ -171,8 +189,6 @@ namespace Trash_Collector.Controllers
         }
 
         // POST: Employees/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,ZipCode,Address,Pay,IdentityUserId")] Employee employee)
@@ -242,7 +258,7 @@ namespace Trash_Collector.Controllers
         }
 
 
-
+        //Returns the Customers that are in a passed zipcode
         public IEnumerable<Customer> GetPickupsByZip(int zip)
         {
             var customersByZip = _context.Customer.Where(c => c.ZipCode == zip);
@@ -260,7 +276,7 @@ namespace Trash_Collector.Controllers
             return customersForpickup;
         }
 
-        //checks if a customer's service is suspended
+        //Checks if a customer's service is suspended
         public IEnumerable<Customer> CheckifSuspended(IEnumerable<Customer> customersNotSuspended, DateTime dateOfPickup)
         {
             foreach (var Item in customersNotSuspended)
@@ -291,6 +307,44 @@ namespace Trash_Collector.Controllers
                 customer.ChargesDue += 15;
             }
             _context.Update(customer);
+        }
+
+        //Returns the date for the next occurence of a passed day of the week
+        public DateTime GetThatDay(string dayOfWeek)
+        {
+            DateTime today = DateTime.Today;
+            int daysUntil;
+            DateTime nextday = DateTime.Today;
+
+            switch (dayOfWeek)
+            {
+                case "Monday":
+                    daysUntil = ((int)DayOfWeek.Monday - (int)today.DayOfWeek + 7) % 7;
+                    nextday = today.AddDays(daysUntil);
+                    break;
+                case "Tuesday":
+                    daysUntil = ((int)DayOfWeek.Tuesday - (int)today.DayOfWeek + 7) % 7;
+                    nextday = today.AddDays(daysUntil);
+                    break;
+                case "Wednesday":
+                    daysUntil = ((int)DayOfWeek.Wednesday - (int)today.DayOfWeek + 7) % 7;
+                    nextday = today.AddDays(daysUntil);
+                    break;
+                case "Thursday":
+                    daysUntil = ((int)DayOfWeek.Thursday - (int)today.DayOfWeek + 7) % 7;
+                    nextday = today.AddDays(daysUntil);
+                    break;
+                case "Friday":
+                    daysUntil = ((int)DayOfWeek.Friday - (int)today.DayOfWeek + 7) % 7;
+                    nextday = today.AddDays(daysUntil);
+                    break;
+                case "Saturday":
+                    daysUntil = ((int)DayOfWeek.Saturday - (int)today.DayOfWeek + 7) % 7;
+                    nextday = today.AddDays(daysUntil);
+                    break;
+            }        
+
+            return nextday;
         }
     }
 }

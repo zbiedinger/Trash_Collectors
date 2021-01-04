@@ -2,72 +2,108 @@
 
 @{
     ViewData["Title"] = "CustomerDetails";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_EmployeeLayout.cshtml";
 }
 
-<h1>CustomerDetails</h1>
+<h1>Customer Details</h1>
 
 <div>
-    <h4>Customer</h4>
+    <h4>
+        <a asp-controller="Employees" asp-action="Index">Return</a>
+    </h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FirstName)
+        <dt class="col-sm-2">
+            First Name
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-4">
             @Html.DisplayFor(model => model.FirstName)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LastName)
+        <dt class="col-sm-2">
+            Pickup Day
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ZipCode)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ZipCode)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Address)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PickupDay)
-        </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-4">
             @Html.DisplayFor(model => model.PickupDay)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ExtraPickupDay)
+        <dt class="col-sm-2">
+            Last Name
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ExtraPickupDay)
+        <dd class="col-sm-4">
+            @Html.DisplayFor(model => model.LastName)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SuspendedStart)
+        <dt class="col-sm-2">
+            Balance
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SuspendedStart)
+        <dd class="col-sm-4">
+            $ @Html.DisplayFor(model => model.ChargesDue)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SuspendedEnd)
+        @if (Model.SuspendedEnd.Ticks > DateTime.Today.Ticks)
+        {
+            <dt class="col-sm-2">
+                Start of Suspention
+            </dt>
+            <dd class="col-sm-4">
+                @Model.SuspendedStart.ToString("M/d/yyyy")
+            </dd>
+            <dt class="col-sm-2">
+                End of Suspention
+            </dt>
+            <dd class="col-sm-4">
+                @Model.SuspendedEnd.ToString("M/d/yyyy")
+            </dd>
+        }
+        @if (Model.ExtraPickupDay.Ticks > DateTime.Today.AddDays(-1).Ticks)
+        {
+            <dt class="col-sm-2">
+                Extra pickup
+            </dt>
+            <dd class="col-sm-10">
+                @Model.ExtraPickupDay.ToString("M/d/yyyy")
+            </dd>
+        }
+        <dt class="col-sm-2">
+            Address
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SuspendedEnd)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Address)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ChargesDue)
+        <dt class="col-sm-2">
+            Zip Code
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ChargesDue)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ZipCode)
         </dd>
-
     </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <hr />
+    <div>
+        <div id="map"></div>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+        <style>
+            /* Always set the map height explicitly to define the size of the div
+                    * element that contains the map. */
+            #map {
+                height: 400px;
+                width: 100%;
+            }
+
+            /* Optional: Makes the sample page fill the window. */
+            html,
+            body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+        </style>
+        <script>
+            function initMap() {
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    center: { lat: 33.780260, lng: -84.410950 },
+                    zoom: 15,
+                });
+            }
+        </script>
+        
+        </script>
+    </div>
+    
 </div>
