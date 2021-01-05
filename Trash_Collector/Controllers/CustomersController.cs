@@ -233,6 +233,8 @@ namespace Trash_Collector.Controllers
                 customerCreate.ZipCode = customer.ZipCode;
                 customerCreate.Address = customer.Address;
                 customerCreate.PickupDay = customer.PickupDay;
+                customerCreate.Longitude = customer.Longitude;
+                customerCreate.Latitude = customer.Latitude;
 
                 _context.Add(customerCreate);
                 await _context.SaveChangesAsync();
@@ -262,7 +264,7 @@ namespace Trash_Collector.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,ZipCode,Address,PickupDay,ExtraPickupDay,IsSuspended,SuspendedStart,SuspendedEnd,ChargesDue,IdentityUserId")] Customer customer)
+        public async Task<IActionResult> Edit(int id, Customer customer)
         {
             if (id != customer.Id)
             {

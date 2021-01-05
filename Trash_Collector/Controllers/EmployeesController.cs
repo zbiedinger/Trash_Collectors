@@ -79,16 +79,6 @@ namespace Trash_Collector.Controllers
             return View(customer);
         }
 
-        //public IActionResult FuturePickups()
-        //{
-        //    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //    var employee = _context.Employee.Where(e => e.IdentityUserId == userId).SingleOrDefault();
-
-        //    var customers = GetPickupsByZip(employee.ZipCode);
-        //    customers = GetTodaysPickups(customers, DateTime.Today.AddDays(1));
-        //    return View("FuturePickups", customers);
-        //}
-
         public IActionResult FuturePickups(string dayOfWeek)
         {
             DateTime pickupDay = GetThatDay(dayOfWeek);
@@ -314,7 +304,7 @@ namespace Trash_Collector.Controllers
         {
             DateTime today = DateTime.Today;
             int daysUntil;
-            DateTime nextday = DateTime.Today;
+            DateTime nextday = DateTime.Today.AddDays(1);
 
             switch (dayOfWeek)
             {
