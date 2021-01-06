@@ -217,11 +217,9 @@ namespace Trash_Collector.Controllers
         }
 
         // POST: Customers/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,ZipCode,Address,PickupDay")] Customer customer)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,ZipCode,Address,PickupDay,Longitude,Latitude")] Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -260,8 +258,6 @@ namespace Trash_Collector.Controllers
         }
 
         // POST: Customers/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Customer customer)
